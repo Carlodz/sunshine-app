@@ -543,7 +543,7 @@
       <p style="color: var(--muted); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
         متوافق مع نظام Windows. ثبّت التطبيق وابدأ مشاهدة أحدث المسلسلات التركية فوراً.
       </p>
-      <a href="https://drive.usercontent.google.com/download?id=1IG4TQMmYwdrF18UmzuNPjmD_TXTUrNlz&export=download&confirm=t" id="downloadLink" class="btn" style="font-size: 1.15rem; padding: 1rem 2.25rem;" download="SUNSHINE-Setup-3.9.1.exe">
+      <a href="https://drive.usercontent.google.com/download?id=1IG4TQMmYwdrF18UmzuNPjmD_TXTUrNlz&export=download&confirm=t" id="downloadLink" class="btn" style="font-size: 1.15rem; padding: 1rem 2.25rem;" rel="noopener">
         <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
         تحميل SUNSHINE Setup 3.9.1
       </a>
@@ -570,16 +570,21 @@
     })();
   </script>
   <script>
-    // ===== إعدادات التحميل =====
-    var FILE_ID = "1IG4TQMmYwdrF18UmzuNPjmD_TXTUrNlz";   // رقم الملف في Google Drive
-    var API_KEY = "";                                      // ضع هنا مفتاح Google API (اختياري) لتحميل مباشر بدون صفحة Google
-    var DIRECT_URL = "SUNSHINE-Setup-3.9.1.exe"; // أو ضع رابط مباشر آخر (مثل GitHub Releases) وسيُستعمل بدل Drive
+    // ===== إعدادات التحميل (GitHub Releases) =====
+    var REPO = "Carlodz/sunshine-app";
+    var link = document.getElementById("downloadLink");
 
-    var url = DIRECT_URL ||
-      (API_KEY
-        ? "https://www.googleapis.com/drive/v3/files/" + FILE_ID + "?alt=media&key=" + API_KEY
-        : "https://drive.usercontent.google.com/download?id=" + FILE_ID + "&export=download&confirm=t");
-    document.getElementById("downloadLink").setAttribute("href", url);
+    // رابط احتياطي: آخر إصدار (يعمل إذا كان اسم الملف في Release هو هذا بالضبط)
+    link.setAttribute("href", "https://github.com/" + REPO + "/releases/latest/download/SUNSHINE-Setup-3.9.1.exe");
+
+    // نبحث تلقائياً عن ملف EXE في آخر إصدار، فلا يهم اسم الملف أو الـ tag
+    fetch("https://api.github.com/repos/" + REPO + "/releases/latest")
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+      .then(function (rel) {
+        var exe = (rel.assets || []).filter(function (a) { return /\.exe$/i.test(a.name); })[0];
+        if (exe) link.setAttribute("href", exe.browser_download_url);
+      })
+      .catch(function () { /* نبقى على الرابط الاحتياطي */ });
   </script>
 </body>
 </html>

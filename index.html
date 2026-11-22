@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SUNSHINE - تطبيق المسلسلات التركية</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f0a07;
+      --card: #1a120e;
+      --accent: #f5a623;
+      --accent-hover: #ffb84d;
+      --text: #f5e6d3;
+      --muted: #a89080;
+      --border: #2a1f18;
+      --success: #4caf50;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Gradient background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(ellipse at 20% 20%, rgba(245, 166, 35, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(180, 80, 20, 0.06) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1rem 2rem;
+      background: rgba(15, 10, 7, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #f5a623, #e07b00);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: #0f0a07;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-right: 1.5rem;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, #f5a623, #e07b00);
+      color: #0f0a07;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(245, 166, 35, 0.35);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-outline:hover {
+      background: var(--accent);
+      color: #0f0a07;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 2rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-content {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #f5e6d3, #f5a623);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      max-width: 500px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-visual {
+      flex: 1;
+      min-width: 300px;
+      position: relative;
+    }
+
+    .phone-mockup {
+      background: var(--card);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .phone-mockup img {
+      width: 100%;
+      display: block;
+    }
+
+    /* Features */
+    .section {
+      padding: 5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 3rem;
+      font-size: 1.1rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(245, 166, 35, 0.15);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    .feature-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* Screenshots */
+    .screenshots {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .screenshot-card {
+      background: var(--card);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .screenshot-card img {
+      width: 100%;
+      display: block;
+    }
+
+    .screenshot-card .caption {
+      padding: 1rem 1.25rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* Download */
+    .download-section {
+      text-align: center;
+      background: linear-gradient(180deg, transparent, rgba(245, 166, 35, 0.05));
+      border-radius: 24px;
+      padding: 4rem 2rem;
+      margin: 2rem;
+      border: 1px solid var(--border);
+    }
+
+    .version-badge {
+      display: inline-block;
+      background: rgba(245, 166, 35, 0.15);
+      color: var(--accent);
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .dev-info {
+      margin-top: 1.5rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .dev-info strong {
+      color: var(--accent);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        padding: 0.75rem 1rem;
+      }
+      nav {
+        display: none;
+      }
+      .hero {
+        padding-top: 6rem;
+        text-align: center;
+      }
+      .hero p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero-buttons {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="#" class="logo">
+      <div class="logo-icon">S</div>
+      SUNSHINE
+    </a>
+    <nav>
+      <a href="#features">المميزات</a>
+      <a href="#screenshots">لقطات</a>
+      <a href="#download">تحميل</a>
+    </nav>
+    <a href="#download" class="btn">تحميل التطبيق</a>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>أفضل تطبيق<br>للمسلسلات التركية</h1>
+      <p>
+        شاهد أحدث المسلسلات التركية بجودة عالية، مع إشعارات الحلقات الجديدة، 
+        ترجمة الأوصاف للعربية، ودعم Discord Rich Presence.
+      </p>
+      <div class="hero-buttons">
+        <a href="#download" class="btn">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          تحميل لنظام ويندوز
+        </a>
+        <a href="#features" class="btn btn-outline">اكتشف المميزات</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="phone-mockup">
+        <img src="favorites.png" alt="واجهة المفضلة في تطبيق SUNSHINE">
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <h2 class="section-title">مميزات التطبيق</h2>
+    <p class="section-subtitle">كل ما تحتاجه لمتابعة المسلسلات التركية في مكان واحد</p>
+    
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📺</div>
+        <h3>مكتبة ضخمة</h3>
+        <p>آلاف المسلسلات التركية الحديثة والكلاسيكية مع تحديثات مستمرة للحلقات الجديدة.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔔</div>
+        <h3>إشعارات الحلقات</h3>
+        <p>تنبيه فوري عند نزول حلقة جديدة من مسلسلاتك المفضلة أو آخر ما شاهدت.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>Discord Rich Presence</h3>
+        <p>اعرض عنوان الفيلم أو المسلسل والبوستر مباشرة في حسابك على Discord.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌐</div>
+        <h3>ترجمة الوصف للعربية</h3>
+        <p>ترجمة أوصاف المحتوى تلقائياً إلى العربية عند توفرها لتسهيل الاختيار.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🖥️</div>
+        <h3>تشغيل في الخلفية</h3>
+        <p>يبقى SUNSHINE مفتوحاً في الخلفية عند إغلاق النافذة، مع إمكانية التشغيل التلقائي مع بدء ويندوز.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">❤️</div>
+        <h3>قائمة المفضلة</h3>
+        <p>احفظ مسلسلاتك المفضلة ووصل إلى آخر حلقة شاهدتها بسهولة.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="screenshots">
+    <h2 class="section-title">لقطات من التطبيق</h2>
+    <p class="section-subtitle">واجهة عربية أنيقة وسهلة الاستخدام</p>
+    
+    <div class="screenshots">
+      <div class="screenshot-card">
+        <img src="favorites.png" alt="صفحة المفضلة">
+        <div class="caption">صفحة المفضلة – مسلسلاتك المفضلة في مكان واحد</div>
+      </div>
+      <div class="screenshot-card">
+        <img src="settings.png" alt="صفحة الإعدادات">
+        <div class="caption">الإعدادات – تحكم كامل في التشغيل والإشعارات</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="download">
+    <div class="download-section">
+      <div class="version-badge">Build 3.9.1</div>
+      <h2 class="section-title" style="margin-bottom: 0.75rem;">حمّل SUNSHINE الآن</h2>
+      <p style="color: var(--muted); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+        متوافق مع نظام Windows. ثبّت التطبيق وابدأ مشاهدة أحدث المسلسلات التركية فوراً.
+      </p>
+      <a href="#" class="btn" style="font-size: 1.15rem; padding: 1rem 2.25rem;" onclick="alert('ضع رابط التحميل الخاص بـ EXE هنا')">
+        <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        تحميل SUNSHINE Setup 3.9.1
+      </a>
+      <div class="dev-info">
+        المطوّر: <strong>carlodz</strong> &nbsp;•&nbsp; اسم التطبيق: <strong>SUNSHINE</strong>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 SUNSHINE App • مطوّر بواسطة carlodz</p>
+    <p style="margin-top: 0.5rem; font-size: 0.8rem;">هذا الموقع للتعريف بالتطبيق فقط</p>
+  </footer>
+</body>
+</html>
